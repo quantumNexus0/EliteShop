@@ -5,15 +5,15 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 ## 📸 Screenshots
 
 ### Homepage Hero Section
-![Homepage Hero](./images/landing%20PagImg1.png)
+![Homepage Hero](./images/landingPagImg1.png)
 *Modern homepage with "New Arrivals" hero section featuring the latest tech innovations and key statistics (10K+ customers, 500+ products, 50+ brands, 24/7 support)*
 
 ### Featured Products Gallery
-![Featured Products](./images/landing%20PagImg2.png)
+![Featured Products](./images/landingPagImg2.png)
 *Curated selection of premium products including fashion, electronics, and lifestyle items with star ratings, pricing, and quick purchase options*
 
 ### Newsletter & Customer Reviews Section
-![Newsletter and Reviews](./images/landing%20PagImg3.png)
+![Newsletter and Reviews](./images/landingPagImg3.png)
 *Newsletter subscription with gradient background, customer testimonials with star ratings, and comprehensive footer with contact information*
 
 ### Product Catalog & Filtering
@@ -21,14 +21,14 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 *Advanced product filtering system with categories, price range, brands, and ratings. Showing products with detailed information, pricing, and quick purchase options*
 
 ### Shopping Cart & Checkout Process
-![Shopping Cart](./images/Shopping%20Cart.png)
+![Shopping Cart](./images/ShoppingCart.png)
 *Interactive shopping cart with quantity adjustment, item removal, and order summary with secure SSL checkout*
 
 ### Payment Process Flow
-![Payment Process Step 1](./images/payment%20Process1.png)
+![Payment Process Step 1](./images/paymentProcess1.png)
 *Step 1: Shipping Information - Complete address form with validation*
 
-![Payment Process Step 2](./images/payment%20Precess2.png)
+![Payment Process Step 2](./images/paymentPrecess2.png)
 *Step 2: Payment Information - Secure card processing with encrypted data*
 
 ![Payment Process Step 3](./images/paymentProcess3.png)
@@ -44,7 +44,7 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 - CSS3 (Grid & Flexbox)
 - JavaScript
 - React.js
-- TailwindCss
+- Tailwind CSS
 - TypeScript
 - Responsive Design
 - Modern UI/UX principles
@@ -104,7 +104,6 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 - User account features (Login/Register)
 - Shopping cart with item counter
 - Category-based browsing
-
 
 ## 📱 Responsive Design
 
@@ -174,11 +173,10 @@ The website is fully optimized for:
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch 
+3. Commit your changes 
+4. Push to the branch 
 5. Open a Pull Request
-
 
 ## 🙏 Acknowledgments
 
