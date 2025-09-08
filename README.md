@@ -6,36 +6,45 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 
 ### Homepage Hero Section
 ![Homepage Hero](Images/landingPagImg1.png)
+
 *Modern homepage with "New Arrivals" hero section featuring the latest tech innovations and key statistics (10K+ customers, 500+ products, 50+ brands, 24/7 support)*
 
 ### Featured Products Gallery
 ![Featured Products](./Images/landingPagImg2.png)
+
 *Curated selection of premium products including fashion, electronics, and lifestyle items with star ratings, pricing, and quick purchase options*
 
 ### Newsletter & Customer Reviews Section
 ![Newsletter and Reviews](./Images/landingPagImg3.png)
+
 *Newsletter subscription with gradient background, customer testimonials with star ratings, and comprehensive footer with contact information*
 
 ### Product Catalog & Filtering
 ![Product Catalog](./Images/productsFilter.png)
+
 *Advanced product filtering system with categories, price range, brands, and ratings. Showing products with detailed information, pricing, and quick purchase options*
 
 ### Shopping Cart & Checkout Process
 ![Shopping Cart](./Images/ShoppingCart.png)
+
 *Interactive shopping cart with quantity adjustment, item removal, and order summary with secure SSL checkout*
 
 ### Payment Process Flow
 ![Payment Process Step 1](./Images/paymentProcess1.png)
+
 *Step 1: Shipping Information - Complete address form with validation*
 
 ![Payment Process Step 2](./Images/paymentPrecess2.png)
+
 *Step 2: Payment Information - Secure card processing with encrypted data*
 
 ![Payment Process Step 3](./Images/paymentProcess3.png)
+
 *Step 3: Order Review - Final order confirmation with complete order details*
 
 ### Admin Dashboard
 ![Admin Dashboard](./Images/adminDashboard.png)
+
 *Administrative interface for managing products, orders, and store operations*
 
 ## 🛠️ Technologies Used
