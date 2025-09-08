@@ -5,7 +5,7 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 ## 📸 Screenshots
 
 ### Homepage Hero Section
-![Homepage Hero](images/landingPagImg1.png)
+![Homepage Hero](Images/landingPagImg1.png)
 *Modern homepage with "New Arrivals" hero section featuring the latest tech innovations and key statistics (10K+ customers, 500+ products, 50+ brands, 24/7 support)*
 
 ### Featured Products Gallery
