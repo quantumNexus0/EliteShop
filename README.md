@@ -5,38 +5,45 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 ## 📸 Screenshots
 
 ### Homepage Hero Section
-![Homepage Hero](images/landingPagImg1.png)
-*Modern homepage with "New Arrivals" hero section featuring the latest tech innovations and key statistics (10K+ customers, 500+ products, 50+ brands, 24/7 support)*
+
+![Homepage Hero](./Images/landingPagImg1.png)
+_Modern homepage with "New Arrivals" hero section featuring the latest tech innovations and key statistics (10K+ customers, 500+ products, 50+ brands, 24/7 support)_
 
 ### Featured Products Gallery
-![Featured Products](./images/landingPagImg2.png)
-*Curated selection of premium products including fashion, electronics, and lifestyle items with star ratings, pricing, and quick purchase options*
+
+![Featured Products](./Images/landingPagImg2.png)
+_Curated selection of premium products including fashion, electronics, and lifestyle items with star ratings, pricing, and quick purchase options_
 
 ### Newsletter & Customer Reviews Section
-![Newsletter and Reviews](./images/landingPagImg3.png)
-*Newsletter subscription with gradient background, customer testimonials with star ratings, and comprehensive footer with contact information*
+
+![Newsletter and Reviews](./Images/landingPagImg3.png)
+_Newsletter subscription with gradient background, customer testimonials with star ratings, and comprehensive footer with contact information_
 
 ### Product Catalog & Filtering
-![Product Catalog](./images/productsFilter.png)
-*Advanced product filtering system with categories, price range, brands, and ratings. Showing products with detailed information, pricing, and quick purchase options*
+
+![Product Catalog](./Images/productsFilter.png)
+_Advanced product filtering system with categories, price range, brands, and ratings. Showing products with detailed information, pricing, and quick purchase options_
 
 ### Shopping Cart & Checkout Process
-![Shopping Cart](./images/ShoppingCart.png)
-*Interactive shopping cart with quantity adjustment, item removal, and order summary with secure SSL checkout*
+
+![Shopping Cart](./Images/ShoppingCart.png)
+_Interactive shopping cart with quantity adjustment, item removal, and order summary with secure SSL checkout_
 
 ### Payment Process Flow
-![Payment Process Step 1](./images/paymentProcess1.png)
-*Step 1: Shipping Information - Complete address form with validation*
 
-![Payment Process Step 2](./images/paymentPrecess2.png)
-*Step 2: Payment Information - Secure card processing with encrypted data*
+![Payment Process Step 1](./Images/paymentProcess1.png)
+_Step 1: Shipping Information - Complete address form with validation_
 
-![Payment Process Step 3](./images/paymentProcess3.png)
-*Step 3: Order Review - Final order confirmation with complete order details*
+![Payment Process Step 2](./Images/paymentPrecess2.png)
+_Step 2: Payment Information - Secure card processing with encrypted data_
+
+![Payment Process Step 3](./Images/paymentProcess3.png)
+_Step 3: Order Review - Final order confirmation with complete order details_
 
 ### Admin Dashboard
-![Admin Dashboard](./images/adminDashboard.png)
-*Administrative interface for managing products, orders, and store operations*
+
+![Admin Dashboard](./Images/adminDashboard.png)
+_Administrative interface for managing products, orders, and store operations_
 
 ## 🛠️ Technologies Used
 
@@ -53,6 +60,7 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 ## ✨ Key Features
 
 ### 🛒 E-commerce Functionality
+
 - **Advanced Product Filtering**: Filter by categories, price range, brands, and ratings
 - **Product Catalog**: Comprehensive product listings with detailed information
 - **Smart Search**: Sort products by name, price, and popularity
@@ -66,6 +74,7 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 - **Responsive Design**: Full mobile and tablet optimization
 
 ### 💳 Complete Checkout Flow
+
 - **Step 1 - Shipping Information**: Complete address form with validation
 - **Step 2 - Payment Information**: Secure card processing with encrypted data
 - **Step 3 - Order Review**: Final order confirmation with all details
@@ -73,12 +82,14 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 - **Security Features**: SSL encryption and secure payment indicators
 
 ### 🔧 Admin Management
+
 - **Admin Dashboard**: Complete administrative interface for store management
 - **Product Management**: Add, edit, and manage product inventory
 - **Order Management**: Track and process customer orders
 - **Store Analytics**: Monitor sales performance and customer data
 
 ### 🔍 Advanced Filtering System
+
 - **Categories**: All Categories, Men's items with subcategories
 - **Price Range**: Customizable price slider ($1 - $1000)
 - **Brands**: Filter by ComfortWear, DenimCo, StreetWear, and more
@@ -86,12 +97,14 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 - **Stock Status**: In-stock availability filtering
 
 ### 🎨 Design Features
+
 - **Modern Gradient Design**: Purple to blue gradient backgrounds
 - **Responsive Layout**: Optimized for all device sizes
 - **Interactive Elements**: Hover effects and smooth transitions
 - **Professional Typography**: Clean, readable font choices
 
 ### 🏪 Shopping Experience
+
 - Best Sellers showcase
 - Flash Sale promotions
 - Gift Cards availability
@@ -99,6 +112,7 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 - Customer review system with star ratings
 
 ### 📱 User Interface
+
 - Intuitive navigation (Home, Men, Women, Kids, About)
 - Search functionality
 - User account features (Login/Register)
@@ -108,6 +122,7 @@ A sleek and responsive e-commerce website featuring a modern design with gradien
 ## 📱 Responsive Design
 
 The website is fully optimized for:
+
 - **Desktop** (1200px+): Full feature layout with sidebar navigation
 - **Tablet** (768px - 1199px): Adapted grid layout
 - **Mobile** (320px - 767px): Touch-friendly interface with collapsible menus
@@ -138,12 +153,14 @@ The website is fully optimized for:
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Modern web browser
 - Internet connection for external resources
 
 ## 💻 Usage
 
 ### Shopping Experience
+
 1. **Browse Products**: Navigate by category or use search functionality
 2. **Filter & Sort**: Use advanced filters to find specific items
 3. **Add to Cart**: Select products and add them to your shopping cart
@@ -155,6 +172,7 @@ The website is fully optimized for:
 6. **Order Confirmation**: Receive order details and tracking information
 
 ### Key Shopping Features
+
 - Real-time price calculations including tax and shipping
 - Free shipping on orders over $50
 - Secure SSL-encrypted payment processing
@@ -173,9 +191,9 @@ The website is fully optimized for:
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
-2. Create your feature branch 
-3. Commit your changes 
-4. Push to the branch 
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
 5. Open a Pull Request
 
 ## 🙏 Acknowledgments
@@ -189,4 +207,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ⭐ **If you found this project helpful, please give it a star!**
 
-*Built with passion for modern e-commerce experiences*
+_Built with passion for modern e-commerce experiences_
