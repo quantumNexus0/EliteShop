@@ -21,7 +21,7 @@ graph TD
     Client[React Frontend] <-->|REST API| API[FastAPI Backend]
     API <-->|SQL Queries| DB[(MySQL Database)]
     API <-->|SMTP| Email[Email Service]
-    Client <-->|Storage| Local[LocalStorage (Cart/Token)]
+    Client <-->|Storage| Local["LocalStorage (Cart/Token)"]
 ```
 
 ## 🛠️ Tech Stack
