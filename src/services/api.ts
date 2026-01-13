@@ -1,65 +1,64 @@
-import { Product } from '../types';
-
-const API_URL = 'http://localhost:8000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 
 const getHeaders = () => {
     const token = localStorage.getItem('token');
     return {
         'Content-Type': 'application/json',
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        ...(token && { Authorization: `Bearer ${token}` })
     };
 };
 
-export const fetchProducts = async (filters: any = {}): Promise<Product[]> => {
-    const queryParams = new URLSearchParams();
-    if (filters.category) queryParams.append('category', filters.category);
-    if (filters.search) queryParams.append('search', filters.search);
-    if (filters.featured) queryParams.append('featured', 'true');
-
-    const response = await fetch(`${API_URL}/products?${queryParams.toString()}`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch products');
-    }
+export const fetchProducts = async (filters = {}) => {
+    const query = new URLSearchParams(filters).toString();
+    const response = await fetch(`${API_URL}/products?${query}`);
+    if (!response.ok) throw new Error('Failed to fetch products');
     return response.json();
 };
 
-export const fetchProductById = async (id: string): Promise<Product> => {
+export const fetchProductById = async (id: string) => {
     const response = await fetch(`${API_URL}/products/${id}`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch product');
-    }
+    if (!response.ok) throw new Error('Failed to fetch product');
     return response.json();
 };
 
-// Auth Functions
-export const loginUser = async (credentials: any) => {
+export const loginApi = async (credentials: any) => {
     const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(credentials)
     });
-    if (!response.ok) throw new Error('Login failed');
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Login failed');
+    }
     return response.json();
 };
 
-export const registerUser = async (userData: any) => {
+export const registerApi = async (userData: any) => {
     const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: JSON.stringify(userData)
     });
-    if (!response.ok) throw new Error('Registration failed');
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Registration failed');
+    }
     return response.json();
 };
 
-// Order Functions
-export const placeOrder = async (orderData: any) => {
+// Orders
+export const createOrderApi = async (orderData: any) => {
     const response = await fetch(`${API_URL}/orders/`, {
         method: 'POST',
         headers: getHeaders(),
         body: JSON.stringify(orderData)
     });
-    if (!response.ok) throw new Error('Failed to place order');
+    if (!response.ok) throw new Error('Failed to create order');
     return response.json();
 };
 
@@ -79,40 +78,13 @@ export const fetchAllOrders = async () => {
     return response.json();
 };
 
-export const updateOrderStatusApi = async (orderId: string, status: string) => {
+export const updateOrderStatus = async (orderId: string, status: string) => {
     const response = await fetch(`${API_URL}/orders/${orderId}/status`, {
         method: 'PUT',
         headers: getHeaders(),
         body: JSON.stringify({ status })
     });
     if (!response.ok) throw new Error('Failed to update order status');
-    return response.json();
-};
-
-// User Profile & Management
-export const fetchAllUsers = async () => {
-    const response = await fetch(`${API_URL}/users/all`, {
-        headers: getHeaders()
-    });
-    if (!response.ok) throw new Error('Failed to fetch users');
-    return response.json();
-};
-
-export const fetchProfile = async () => {
-    const response = await fetch(`${API_URL}/users/profile`, {
-        headers: getHeaders()
-    });
-    if (!response.ok) throw new Error('Failed to fetch profile');
-    return response.json();
-};
-
-export const updateProfileApi = async (data: { name: string; phone?: string }) => {
-    const response = await fetch(`${API_URL}/users/profile`, {
-        method: 'PUT',
-        headers: getHeaders(),
-        body: JSON.stringify(data)
-    });
-    if (!response.ok) throw new Error('Failed to update profile');
     return response.json();
 };
 
@@ -126,7 +98,7 @@ export const fetchWishlist = async () => {
 };
 
 export const addToWishlistApi = async (productId: string) => {
-    const response = await fetch(`${API_URL}/wishlist/${productId}`, {
+    const response = await fetch(`${API_URL}/wishlist/add/${productId}`, {
         method: 'POST',
         headers: getHeaders()
     });
@@ -135,11 +107,38 @@ export const addToWishlistApi = async (productId: string) => {
 };
 
 export const removeFromWishlistApi = async (productId: string) => {
-    const response = await fetch(`${API_URL}/wishlist/${productId}`, {
+    const response = await fetch(`${API_URL}/wishlist/remove/${productId}`, {
         method: 'DELETE',
         headers: getHeaders()
     });
     if (!response.ok) throw new Error('Failed to remove from wishlist');
+    return response.json();
+};
+
+// Users
+export const fetchUsers = async () => {
+    const response = await fetch(`${API_URL}/users/all`, {
+        headers: getHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch users');
+    return response.json();
+};
+
+export const fetchUserProfile = async () => {
+    const response = await fetch(`${API_URL}/users/profile`, {
+        headers: getHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch profile');
+    return response.json();
+};
+
+export const updateUserProfile = async (data: any) => {
+    const response = await fetch(`${API_URL}/users/profile`, {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify(data)
+    });
+    if (!response.ok) throw new Error('Failed to update profile');
     return response.json();
 };
 
