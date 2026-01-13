@@ -37,33 +37,30 @@ const CheckoutPage: React.FC = () => {
   const tax = state.total * 0.08;
   const finalTotal = state.total + shipping + tax;
 
-  const handlePlaceOrder = () => {
-    // Simulate order processing
+  const handlePlaceOrder = async () => {
     if (user) {
-      addOrder({
-        userId: user.id,
-        userName: user.name,
-        userEmail: user.email,
-        items: state.items,
-        total: finalTotal,
-        status: 'pending',
-        shippingAddress: {
-          street: shippingInfo.address,
-          city: shippingInfo.city,
-          state: shippingInfo.state,
-          zipCode: shippingInfo.zipCode,
-          country: shippingInfo.country
-        },
-        paymentMethod: 'Credit Card'
-      });
+      const orderData = {
+        items: state.items.map(item => ({
+          product_id: item.product.id,
+          quantity: item.quantity,
+          price: item.product.price
+        })),
+        total_amount: finalTotal,
+        shipping_address: `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state} ${shippingInfo.zipCode}, ${shippingInfo.country}`
+      };
+
+      const success = await addOrder(orderData);
+      if (success) {
+        setOrderPlaced(true);
+        dispatch({ type: 'CLEAR_CART' });
+
+        setTimeout(() => {
+          navigate('/order-confirmation');
+        }, 2000);
+      } else {
+        alert('Failed to place order. Please try again.');
+      }
     }
-    
-    setOrderPlaced(true);
-    dispatch({ type: 'CLEAR_CART' });
-    
-    setTimeout(() => {
-      navigate('/order-confirmation');
-    }, 2000);
   };
 
   if (state.items.length === 0 && !orderPlaced) {
@@ -99,11 +96,10 @@ const CheckoutPage: React.FC = () => {
             {[1, 2, 3].map((step) => (
               <div key={step} className="flex items-center">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${
-                    currentStep >= step
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${currentStep >= step
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 text-gray-600'
-                  }`}
+                    }`}
                 >
                   {step}
                 </div>
@@ -113,9 +109,8 @@ const CheckoutPage: React.FC = () => {
                 {step < 3 && (
                   <div className="w-16 h-1 bg-gray-200 ml-4">
                     <div
-                      className={`h-full bg-blue-600 transition-all duration-300 ${
-                        currentStep > step ? 'w-full' : 'w-0'
-                      }`}
+                      className={`h-full bg-blue-600 transition-all duration-300 ${currentStep > step ? 'w-full' : 'w-0'
+                        }`}
                     />
                   </div>
                 )}
@@ -131,7 +126,7 @@ const CheckoutPage: React.FC = () => {
             {currentStep === 1 && (
               <div className="bg-white rounded-2xl shadow-sm p-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">Shipping Information</h2>
-                
+
                 <form className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -141,7 +136,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="text"
                         value={shippingInfo.firstName}
-                        onChange={(e) => setShippingInfo({...shippingInfo, firstName: e.target.value})}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, firstName: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -153,7 +148,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="text"
                         value={shippingInfo.lastName}
-                        onChange={(e) => setShippingInfo({...shippingInfo, lastName: e.target.value})}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, lastName: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -168,7 +163,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="email"
                         value={shippingInfo.email}
-                        onChange={(e) => setShippingInfo({...shippingInfo, email: e.target.value})}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, email: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -180,7 +175,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="tel"
                         value={shippingInfo.phone}
-                        onChange={(e) => setShippingInfo({...shippingInfo, phone: e.target.value})}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, phone: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -194,7 +189,7 @@ const CheckoutPage: React.FC = () => {
                     <input
                       type="text"
                       value={shippingInfo.address}
-                      onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}
+                      onChange={(e) => setShippingInfo({ ...shippingInfo, address: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       required
                     />
@@ -207,7 +202,7 @@ const CheckoutPage: React.FC = () => {
                     <input
                       type="text"
                       value={shippingInfo.apartment}
-                      onChange={(e) => setShippingInfo({...shippingInfo, apartment: e.target.value})}
+                      onChange={(e) => setShippingInfo({ ...shippingInfo, apartment: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
@@ -220,7 +215,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="text"
                         value={shippingInfo.city}
-                        onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, city: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -232,7 +227,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="text"
                         value={shippingInfo.state}
-                        onChange={(e) => setShippingInfo({...shippingInfo, state: e.target.value})}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, state: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -244,7 +239,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="text"
                         value={shippingInfo.zipCode}
-                        onChange={(e) => setShippingInfo({...shippingInfo, zipCode: e.target.value})}
+                        onChange={(e) => setShippingInfo({ ...shippingInfo, zipCode: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                       />
@@ -266,7 +261,7 @@ const CheckoutPage: React.FC = () => {
             {currentStep === 2 && (
               <div className="bg-white rounded-2xl shadow-sm p-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">Payment Information</h2>
-                
+
                 <form className="space-y-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -276,7 +271,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="text"
                         value={paymentInfo.cardNumber}
-                        onChange={(e) => setPaymentInfo({...paymentInfo, cardNumber: e.target.value})}
+                        onChange={(e) => setPaymentInfo({ ...paymentInfo, cardNumber: e.target.value })}
                         placeholder="1234 5678 9012 3456"
                         className="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
@@ -293,7 +288,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="text"
                         value={paymentInfo.expiryDate}
-                        onChange={(e) => setPaymentInfo({...paymentInfo, expiryDate: e.target.value})}
+                        onChange={(e) => setPaymentInfo({ ...paymentInfo, expiryDate: e.target.value })}
                         placeholder="MM/YY"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
@@ -306,7 +301,7 @@ const CheckoutPage: React.FC = () => {
                       <input
                         type="text"
                         value={paymentInfo.cvv}
-                        onChange={(e) => setPaymentInfo({...paymentInfo, cvv: e.target.value})}
+                        onChange={(e) => setPaymentInfo({ ...paymentInfo, cvv: e.target.value })}
                         placeholder="123"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
@@ -321,7 +316,7 @@ const CheckoutPage: React.FC = () => {
                     <input
                       type="text"
                       value={paymentInfo.cardName}
-                      onChange={(e) => setPaymentInfo({...paymentInfo, cardName: e.target.value})}
+                      onChange={(e) => setPaymentInfo({ ...paymentInfo, cardName: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       required
                     />
@@ -351,7 +346,7 @@ const CheckoutPage: React.FC = () => {
             {currentStep === 3 && (
               <div className="bg-white rounded-2xl shadow-sm p-8">
                 <h2 className="text-xl font-semibold text-gray-900 mb-6">Order Review</h2>
-                
+
                 <div className="space-y-6">
                   {/* Shipping Address */}
                   <div className="border-b border-gray-200 pb-6">
@@ -423,25 +418,25 @@ const CheckoutPage: React.FC = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-sm p-6 sticky top-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Summary</h3>
-              
+
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal ({state.items.reduce((sum, item) => sum + item.quantity, 0)} items)</span>
                   <span className="font-semibold">${state.total.toFixed(2)}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping</span>
                   <span className="font-semibold">
                     {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
                   </span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Tax</span>
                   <span className="font-semibold">${tax.toFixed(2)}</span>
                 </div>
-                
+
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex justify-between">
                     <span className="text-lg font-semibold text-gray-900">Total</span>

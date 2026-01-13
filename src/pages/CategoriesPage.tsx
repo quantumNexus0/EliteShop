@@ -1,9 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Smartphone, Watch, Camera, Gamepad2, Headphones, Armchair } from 'lucide-react';
-import { products } from '../data/products';
+import { useState, useEffect } from 'react';
+import { fetchProducts } from '../services/api';
+import { Product } from '../types';
 
 const CategoriesPage: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    fetchProducts().then(setProducts).catch(console.error);
+  }, []);
   const categories = [
     {
       name: 'Electronics',
@@ -89,7 +96,7 @@ const CategoriesPage: React.FC = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-300" />
-                    
+
                     {/* Icon */}
                     <div className={`absolute top-4 left-4 w-12 h-12 bg-gradient-to-r ${category.color} rounded-full flex items-center justify-center`}>
                       <IconComponent className="w-6 h-6 text-white" />

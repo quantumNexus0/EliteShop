@@ -1,0 +1,38 @@
+CREATE DATABASE IF NOT EXISTS eliteshop;
+USE eliteshop;
+
+CREATE TABLE IF NOT EXISTS products (
+  id VARCHAR(255) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  price DECIMAL(10, 2) NOT NULL,
+  originalPrice DECIMAL(10, 2),
+  images JSON,
+  category VARCHAR(50),
+  subcategory VARCHAR(50),
+  brand VARCHAR(50),
+  rating DECIMAL(3, 2) DEFAULT 0,
+  reviewCount INT DEFAULT 0,
+  inStock BOOLEAN DEFAULT TRUE,
+  stockQuantity INT DEFAULT 0,
+  tags JSON,
+  featured BOOLEAN DEFAULT FALSE,
+  sizes JSON,
+  colors JSON,
+  material VARCHAR(100),
+  gender VARCHAR(20),
+  sku VARCHAR(50),
+  discount INT DEFAULT 0,
+  isNew BOOLEAN DEFAULT FALSE,
+  isBestseller BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  id VARCHAR(255) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  isAdmin BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

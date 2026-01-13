@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Filter, Grid, List, ChevronDown, SlidersHorizontal, X } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/products';
+import { fetchProducts } from '../services/api';
 import { Product } from '../types';
 
 const ProductsPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('name');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -18,6 +19,21 @@ const ProductsPage: React.FC = () => {
 
   const categories = ['all', ...Array.from(new Set(products.map(p => p.category)))];
   const brands = Array.from(new Set(products.map(p => p.brand)));
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const search = searchParams.get('search') || undefined;
+        const category = searchParams.get('category') || undefined;
+        const data = await fetchProducts({ search, category });
+        setProducts(data);
+        setFilteredProducts(data);
+      } catch (error) {
+        console.error('Failed to load products:', error);
+      }
+    };
+    loadProducts();
+  }, [searchParams]);
 
   useEffect(() => {
     let filtered = [...products];
@@ -48,7 +64,7 @@ const ProductsPage: React.FC = () => {
     }
 
     // Price range filter
-    filtered = filtered.filter(product => 
+    filtered = filtered.filter(product =>
       product.price >= priceRange[0] && product.price <= priceRange[1]
     );
 
@@ -77,7 +93,7 @@ const ProductsPage: React.FC = () => {
     });
 
     setFilteredProducts(filtered);
-  }, [searchParams, selectedCategory, selectedBrands, priceRange, sortBy, ratingFilter]);
+  }, [searchParams, selectedCategory, selectedBrands, priceRange, sortBy, ratingFilter, products]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -90,8 +106,8 @@ const ProductsPage: React.FC = () => {
   };
 
   const handleBrandChange = (brand: string) => {
-    setSelectedBrands(prev => 
-      prev.includes(brand) 
+    setSelectedBrands(prev =>
+      prev.includes(brand)
         ? prev.filter(b => b !== brand)
         : [...prev, brand]
     );
@@ -106,7 +122,7 @@ const ProductsPage: React.FC = () => {
     setSearchParams(searchParams);
   };
 
-  const activeFiltersCount = 
+  const activeFiltersCount =
     (selectedCategory !== 'all' ? 1 : 0) +
     selectedBrands.length +
     (priceRange[0] > 0 || priceRange[1] < 1000 ? 1 : 0) +
@@ -234,11 +250,10 @@ const ProductsPage: React.FC = () => {
                   <button
                     key={category}
                     onClick={() => handleCategoryChange(category)}
-                    className={`block w-full text-left px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors text-sm ${
-                      selectedCategory === category
-                        ? 'bg-blue-100 text-blue-600'
-                        : 'text-gray-600 hover:bg-gray-100'
-                    }`}
+                    className={`block w-full text-left px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-colors text-sm ${selectedCategory === category
+                      ? 'bg-blue-100 text-blue-600'
+                      : 'text-gray-600 hover:bg-gray-100'
+                      }`}
                   >
                     {category === 'all' ? 'All Categories' : category}
                     <span className="text-xs text-gray-400 ml-2">
@@ -291,11 +306,11 @@ const ProductsPage: React.FC = () => {
               <div className="space-y-1 sm:space-y-2 max-h-48 overflow-y-auto">
                 {brands.map((brand) => (
                   <label key={brand} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={selectedBrands.includes(brand)}
                       onChange={() => handleBrandChange(brand)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500" 
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm text-gray-600">{brand}</span>
                     <span className="text-xs text-gray-400">
@@ -313,9 +328,8 @@ const ProductsPage: React.FC = () => {
                   <button
                     key={rating}
                     onClick={() => setRatingFilter(ratingFilter === rating ? 0 : rating)}
-                    className={`flex items-center space-x-2 w-full text-left p-2 rounded-lg transition-colors ${
-                      ratingFilter === rating ? 'bg-yellow-50 text-yellow-700' : 'hover:bg-gray-50'
-                    }`}
+                    className={`flex items-center space-x-2 w-full text-left p-2 rounded-lg transition-colors ${ratingFilter === rating ? 'bg-yellow-50 text-yellow-700' : 'hover:bg-gray-50'
+                      }`}
                   >
                     <div className="flex">
                       {[...Array(5)].map((_, i) => (
@@ -348,11 +362,10 @@ const ProductsPage: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className={`grid gap-3 sm:gap-4 lg:gap-6 ${
-                viewMode === 'grid' 
-                  ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4' 
-                  : 'grid-cols-1'
-              }`}>
+              <div className={`grid gap-3 sm:gap-4 lg:gap-6 ${viewMode === 'grid'
+                ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4'
+                : 'grid-cols-1'
+                }`}>
                 {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

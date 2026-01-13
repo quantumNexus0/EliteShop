@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Heart, Star, Truck, Shield, ArrowLeft, Minus, Plus } from 'lucide-react';
-import { products } from '../data/products';
+import { fetchProductById } from '../services/api';
 import { Product } from '../types';
 import { useCart } from '../contexts/CartContext';
+import Reviews from '../components/Reviews';
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,12 +16,17 @@ const ProductDetailPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('description');
 
   useEffect(() => {
-    const foundProduct = products.find(p => p.id === id);
-    if (foundProduct) {
-      setProduct(foundProduct);
-    } else {
-      navigate('/products');
-    }
+    const loadProduct = async () => {
+      if (!id) return;
+      try {
+        const data = await fetchProductById(id);
+        setProduct(data);
+      } catch (error) {
+        console.error('Failed to load product:', error);
+        navigate('/products');
+      }
+    };
+    loadProduct();
   }, [id, navigate]);
 
   if (!product) {
@@ -40,33 +46,11 @@ const ProductDetailPage: React.FC = () => {
     }
   };
 
-  const discountPercentage = product.originalPrice 
+  const discountPercentage = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
-  const reviews = [
-    {
-      id: '1',
-      userName: 'Sarah Johnson',
-      rating: 5,
-      comment: 'Absolutely love this product! Quality is outstanding and delivery was fast.',
-      date: '2025-01-10'
-    },
-    {
-      id: '2',
-      userName: 'Mike Chen',
-      rating: 4,
-      comment: 'Great value for money. Works exactly as described.',
-      date: '2025-01-08'
-    },
-    {
-      id: '3',
-      userName: 'Emma Davis',
-      rating: 5,
-      comment: 'Exceeded my expectations. Highly recommend!',
-      date: '2025-01-05'
-    }
-  ];
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -90,16 +74,15 @@ const ProductDetailPage: React.FC = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            
+
             {product.images.length > 1 && (
               <div className="flex space-x-4">
                 {product.images.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
-                      selectedImage === index ? 'border-blue-600' : 'border-gray-200'
-                    }`}
+                    className={`w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${selectedImage === index ? 'border-blue-600' : 'border-gray-200'
+                      }`}
                   >
                     <img
                       src={image}
@@ -129,7 +112,7 @@ const ProductDetailPage: React.FC = () => {
                   ))}
                 </div>
               </div>
-              
+
               <div>
                 <h3 className="text-sm font-medium text-gray-900 mb-3">Color</h3>
                 <div className="flex flex-wrap gap-2">
@@ -152,18 +135,17 @@ const ProductDetailPage: React.FC = () => {
               <h1 className="text-3xl font-bold text-gray-900 mt-2 mb-4">
                 {product.name}
               </h1>
-              
+
               {/* Rating */}
               <div className="flex items-center space-x-4 mb-6">
                 <div className="flex items-center space-x-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${
-                        i < Math.floor(product.rating)
-                          ? 'fill-yellow-400 text-yellow-400'
-                          : 'text-gray-300'
-                      }`}
+                      className={`w-5 h-5 ${i < Math.floor(product.rating)
+                        ? 'fill-yellow-400 text-yellow-400'
+                        : 'text-gray-300'
+                        }`}
                     />
                   ))}
                 </div>
@@ -235,7 +217,7 @@ const ProductDetailPage: React.FC = () => {
                 <ShoppingCart className="w-5 h-5" />
                 <span>Add to Cart - ${(product.price * quantity).toFixed(2)}</span>
               </button>
-              
+
               <button className="w-full border border-gray-300 text-gray-700 hover:bg-gray-50 py-4 rounded-full font-semibold text-lg transition-colors flex items-center justify-center space-x-2">
                 <Heart className="w-5 h-5" />
                 <span>Add to Wishlist</span>
@@ -266,11 +248,10 @@ const ProductDetailPage: React.FC = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-                    activeTab === tab
-                      ? 'border-blue-600 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
-                  }`}
+                  className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === tab
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                    }`}
                 >
                   {tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </button>
@@ -327,47 +308,7 @@ const ProductDetailPage: React.FC = () => {
             )}
 
             {activeTab === 'reviews' && (
-              <div className="space-y-8">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-semibold text-gray-900">Customer Reviews</h3>
-                  <button className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
-                    Write a Review
-                  </button>
-                </div>
-                
-                <div className="space-y-6">
-                  {reviews.map((review) => (
-                    <div key={review.id} className="border-b border-gray-200 pb-6">
-                      <div className="flex items-center space-x-4 mb-3">
-                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-blue-600 font-semibold">
-                            {review.userName.charAt(0)}
-                          </span>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900">{review.userName}</h4>
-                          <div className="flex items-center space-x-2">
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-4 h-4 ${
-                                    i < review.rating
-                                      ? 'fill-yellow-400 text-yellow-400'
-                                      : 'text-gray-300'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-gray-500">{review.date}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <p className="text-gray-700">{review.comment}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <Reviews productId={product.id} />
             )}
           </div>
         </div>

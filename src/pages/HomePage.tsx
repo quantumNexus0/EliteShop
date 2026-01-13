@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Truck, Shield, HeartHandshake, Award, ChevronLeft, ChevronRight, Star, TrendingUp, Zap, Gift } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/products';
+import { fetchProducts } from '../services/api';
 import { Product } from '../types';
 
 const HomePage: React.FC = () => {
@@ -43,7 +43,15 @@ const HomePage: React.FC = () => {
   ];
 
   useEffect(() => {
-    setFeaturedProducts(products.filter(product => product.featured));
+    const loadFeatured = async () => {
+      try {
+        const data = await fetchProducts({ featured: true });
+        setFeaturedProducts(data);
+      } catch (error) {
+        console.error('Failed to load featured products:', error);
+      }
+    };
+    loadFeatured();
   }, []);
 
   useEffect(() => {
@@ -69,9 +77,8 @@ const HomePage: React.FC = () => {
           {heroSlides.map((slide, index) => (
             <div
               key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentSlide ? 'opacity-100' : 'opacity-0'
-              }`}
+              className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+                }`}
             >
               <img
                 src={slide.image}
@@ -123,9 +130,8 @@ const HomePage: React.FC = () => {
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                index === currentSlide ? 'bg-white' : 'bg-white/50'
-              }`}
+              className={`w-3 h-3 rounded-full transition-colors ${index === currentSlide ? 'bg-white' : 'bg-white/50'
+                }`}
             />
           ))}
         </div>

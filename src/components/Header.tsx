@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Search, ShoppingCart, User, Menu, X, Heart, Bell } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
+import { fetchNotifications, fetchWishlist } from '../services/api';
+import { useEffect } from 'react';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,6 +13,28 @@ const Header: React.FC = () => {
   const { state } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [wishlistCount, setWishlistCount] = useState(0);
+
+  useEffect(() => {
+    if (user) {
+      const loadCounts = async () => {
+        try {
+          const [n, w] = await Promise.all([
+            fetchNotifications(),
+            fetchWishlist()
+          ]);
+          setNotificationCount(n.filter((notif: any) => !notif.is_read).length);
+          setWishlistCount(w.length);
+        } catch (e) {
+          console.error(e);
+        }
+      };
+      loadCounts();
+      const interval = setInterval(loadCounts, 60000); // Poll every minute
+      return () => clearInterval(interval);
+    }
+  }, [user]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,20 +71,18 @@ const Header: React.FC = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
-                isActive('/') ? 'text-blue-600' : ''
-              }`}
+              className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/') ? 'text-blue-600' : ''
+                }`}
             >
               Home
             </Link>
-            
+
             {/* Men's Dropdown */}
             <div className="relative group">
               <Link
                 to="/products?category=Men"
-                className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
-                  location.pathname === '/products' && location.search.includes('category=Men') ? 'text-blue-600' : ''
-                }`}
+                className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${location.pathname === '/products' && location.search.includes('category=Men') ? 'text-blue-600' : ''
+                  }`}
               >
                 Men
               </Link>
@@ -91,9 +113,8 @@ const Header: React.FC = () => {
             <div className="relative group">
               <Link
                 to="/products?category=Women"
-                className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
-                  location.pathname === '/products' && location.search.includes('category=Women') ? 'text-blue-600' : ''
-                }`}
+                className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${location.pathname === '/products' && location.search.includes('category=Women') ? 'text-blue-600' : ''
+                  }`}
               >
                 Women
               </Link>
@@ -124,9 +145,8 @@ const Header: React.FC = () => {
             <div className="relative group">
               <Link
                 to="/products?category=Kids"
-                className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
-                  location.pathname === '/products' && location.search.includes('category=Kids') ? 'text-blue-600' : ''
-                }`}
+                className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${location.pathname === '/products' && location.search.includes('category=Kids') ? 'text-blue-600' : ''
+                  }`}
               >
                 Kids
               </Link>
@@ -155,9 +175,8 @@ const Header: React.FC = () => {
 
             <Link
               to="/about"
-              className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${
-                isActive('/about') ? 'text-blue-600' : ''
-              }`}
+              className={`text-gray-700 hover:text-blue-600 font-medium transition-colors ${isActive('/about') ? 'text-blue-600' : ''
+                }`}
             >
               About
             </Link>
@@ -187,16 +206,23 @@ const Header: React.FC = () => {
             </button>
 
             {/* Wishlist */}
-            <button className="p-2 text-gray-600 hover:text-blue-600 relative">
+            <Link to="/dashboard" onClick={() => navigate('/dashboard', { state: { tab: 'wishlist' } })} className="p-2 text-gray-600 hover:text-blue-600 relative">
               <Heart className="w-5 h-5" />
-            </button>
+              {wishlistCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  {wishlistCount}
+                </span>
+              )}
+            </Link>
 
             {/* Notifications */}
             <button className="p-2 text-gray-600 hover:text-blue-600 relative">
               <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                2
-              </span>
+              {notificationCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+                  {notificationCount}
+                </span>
+              )}
             </button>
 
             {/* Cart */}
